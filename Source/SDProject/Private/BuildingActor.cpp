@@ -44,7 +44,7 @@ bool ABuildingActor::IsRelativePointInVisibleVolume(FVector Point, bool Reverse)
 void ABuildingActor::OnUpdateEpoch(int32 EpochNum, int32 VisualisatingValue)
 {
 	Super::OnUpdateEpoch(EpochNum, VisualisatingValue);
-	int32 Val = VisualisatingValue % ParentTimeCore->Duration;
+	int32 Val = VisualisatingValue - (TargetEpoch - 1) * ParentTimeCore->Duration;
 	if (Up && Threshold < Val) {
 		VisibleLevels = (Val - Threshold) / (360 / (AnimationSpeed)) + 1;
 		VisibleAngle = (Val - Threshold) % (360 / (AnimationSpeed));
