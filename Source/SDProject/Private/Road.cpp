@@ -23,13 +23,14 @@ ARoad::ARoad()
 ARoad* ARoad::CreateRoad(FVector Vector)
 {
 	FVector Location = GetActorLocation() + Vector;
+	FRotator Rotation = GetActorRotation();
 
 	ARoad* NearRoad = GetNearRoad(Location, nullptr);
 	if (NearRoad) {
 		return NearRoad;
 	}
 	else {
-		ARoad* NewRoad = Cast<ARoad>(GetWorld()->SpawnActor(GetClass(), &Location));
+		ARoad* NewRoad = Cast<ARoad>(GetWorld()->SpawnActor(GetClass(), &Location, &Rotation));
 		NewRoad->ParentTimeCore = ParentTimeCore;
 		return NewRoad;
 	}
@@ -37,10 +38,9 @@ ARoad* ARoad::CreateRoad(FVector Vector)
 
 AActor* ARoad::SpawnBlock(UClass* ObjectClass, FVector RelativeVector)
 {
-	FVector Location = GetActorLocation() + RelativeVector;
-	AActor* Actor = GetWorld()->SpawnActor(ObjectClass, &Location);
+	AActor* Actor = GetWorld()->SpawnActor(ObjectClass, &RelativeVector);
 
-	Actor->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	Actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 
 	return Actor;
 }
@@ -295,7 +295,7 @@ void ARoad::AddXPlus()
 		XPlusRoad->AddXPlus();
 	}
 	else {
-		XPlusRoad = CreateRoad(FVector::XAxisVector * (Offset * ((Size + 2) * 2 - 1)));
+		XPlusRoad = CreateRoad(GetActorForwardVector() * (Offset * ((Size + 2) * 2 - 1)));
 		XPlusRoad->XMinusRoad = this;
 	}
 }
@@ -319,7 +319,7 @@ void ARoad::AddXMinus()
 		XMinusRoad->AddXMinus();
 	}
 	else {
-		XMinusRoad = CreateRoad(-1 * FVector::XAxisVector * (Offset * ((Size + 2) * 2 - 1)));
+		XMinusRoad = CreateRoad(-1 * GetActorForwardVector() * (Offset * ((Size + 2) * 2 - 1)));
 		XMinusRoad->XPlusRoad = this;
 	}
 }
@@ -343,7 +343,7 @@ void ARoad::AddYPlus()
 		YPlusRoad->AddYPlus();
 	}
 	else {
-		YPlusRoad = CreateRoad(FVector::YAxisVector * (Offset * ((Size + 2) * 2 - 1)));
+		YPlusRoad = CreateRoad(GetActorRightVector() * (Offset * ((Size + 2) * 2 - 1)));
 		YPlusRoad->YMinusRoad = this;
 	}
 }
@@ -367,7 +367,7 @@ void ARoad::AddYMinus()
 		YMinusRoad->AddYMinus();
 	}
 	else {
-		YMinusRoad = CreateRoad(-1 * FVector::YAxisVector * (Offset * ((Size + 2) * 2 - 1)));
+		YMinusRoad = CreateRoad(-1 * GetActorRightVector() * (Offset * ((Size + 2) * 2 - 1)));
 		YMinusRoad->YPlusRoad = this;
 	}
 }
