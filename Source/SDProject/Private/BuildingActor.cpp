@@ -45,12 +45,16 @@ void ABuildingActor::OnUpdateEpoch(int32 EpochNum, int32 VisualisatingValue)
 {
 	Super::OnUpdateEpoch(EpochNum, VisualisatingValue);
 	int32 Val = VisualisatingValue - (TargetEpoch - 1) * ParentTimeCore->Duration;
-	if (Up && Threshold < Val) {
-		VisibleLevels = (Val - Threshold) / (360 / (AnimationSpeed)) + 1;
+	if (Val < Threshold) {
+		VisibleLevels = -1;
+	}
+	else if(EpochNum == TargetEpoch){
+		VisibleLevels = (Val - Threshold) / (360 / (AnimationSpeed));
 		VisibleAngle = (Val - Threshold) % (360 / (AnimationSpeed));
 	}
-	else if(!Up){
-		VisibleLevels = MaxLevel - Val / (360 / (AnimationSpeed));
+	else {
+		VisibleLevels = MaxLevel - (Val / (360 / (AnimationSpeed)));
 		VisibleAngle = 360 - Val % (360 / (AnimationSpeed));
 	}
+	
 }
