@@ -38,46 +38,50 @@ ARoad* ARoad::CreateRoad(FVector Vector)
 
 AActor* ARoad::SpawnBlock(UClass* ObjectClass, FVector RelativeVector)
 {
-	AActor* Actor = GetWorld()->SpawnActor(ObjectClass, &RelativeVector);
+	if (ObjectClass) {
+		AActor* Actor = GetWorld()->SpawnActor(ObjectClass, &RelativeVector);
 
-	Actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+		Actor->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 
-	return Actor;
+		return Actor;
+	}
+	else {
+		return nullptr;
+	}
 }
 
 void ARoad::Construct()
 {
-	if (Road && Border) {
-		Built = true;
-		TArray<AActor*> ActorArray;
-		GetAttachedActors(ActorArray);
+	Built = true;
+	TArray<AActor*> ActorArray;
+	GetAttachedActors(ActorArray);
 
-		while (ActorArray.Num() > 0) {
-			AActor* Actor = ActorArray[0];
-			if (Actor) {
-				ActorArray.Remove(Actor);
-				Actor->Destroy();
-			}
-		}
-		for (int32 i = -Size; i <= Size; i++)
-		{
-			for (int32 j = -Size; j <= Size; j++)
-			{
-				SpawnBlock(Road, FVector(i * Offset, j * Offset, 0));
-			}
-		}
-		SpawnBlock(Border, FVector((Size + 1) * Offset, (Size + 1) * Offset, 0));
-		SpawnBlock(Border, FVector((Size + 1) * Offset, -1 * (Size + 1) * Offset, 0));
-		SpawnBlock(Border, FVector(-1 * (Size + 1) * Offset, (Size + 1) * Offset, 0));
-		SpawnBlock(Border, FVector(-1 * (Size + 1) * Offset, -1 * (Size + 1) * Offset, 0));
-		for (int i = -Size; i <= Size; i++)
-		{
-			SpawnBlock(XPlusRoad ? Road : Border, FVector((Size + 1) * Offset, i * Offset, 0));
-			SpawnBlock(XMinusRoad ? Road : Border, FVector(-1 * (Size + 1) * Offset, i * Offset, 0));
-			SpawnBlock(YPlusRoad ? Road : Border, FVector(i * Offset, (Size + 1) * Offset, 0));
-			SpawnBlock(YMinusRoad ? Road : Border, FVector(i * Offset, -1 * (Size + 1) * Offset, 0));
+	while (ActorArray.Num() > 0) {
+		AActor* Actor = ActorArray[0];
+		if (Actor) {
+			ActorArray.Remove(Actor);
+			Actor->Destroy();
 		}
 	}
+	for (int32 i = -Size; i <= Size; i++)
+	{
+		for (int32 j = -Size; j <= Size; j++)
+		{
+			SpawnBlock(Road, FVector(i * Offset, j * Offset, 0));
+		}
+	}
+	SpawnBlock(Border, FVector((Size + 1) * Offset, (Size + 1) * Offset, 0));
+	SpawnBlock(Border, FVector((Size + 1) * Offset, -1 * (Size + 1) * Offset, 0));
+	SpawnBlock(Border, FVector(-1 * (Size + 1) * Offset, (Size + 1) * Offset, 0));
+	SpawnBlock(Border, FVector(-1 * (Size + 1) * Offset, -1 * (Size + 1) * Offset, 0));
+	for (int i = -Size; i <= Size; i++)
+	{
+		SpawnBlock(XPlusRoad ? Road : Border, FVector((Size + 1) * Offset, i * Offset, 0));
+		SpawnBlock(XMinusRoad ? Road : Border, FVector(-1 * (Size + 1) * Offset, i * Offset, 0));
+		SpawnBlock(YPlusRoad ? Road : Border, FVector(i * Offset, (Size + 1) * Offset, 0));
+		SpawnBlock(YMinusRoad ? Road : Border, FVector(i * Offset, -1 * (Size + 1) * Offset, 0));
+	}
+
 }
 
 ARoad* ARoad::GetNearRoad(FVector Location, TArray<ARoad*>* Prev)
