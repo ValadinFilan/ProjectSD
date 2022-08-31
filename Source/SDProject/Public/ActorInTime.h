@@ -32,6 +32,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Epoches and time | Time")
 	int32 Threshold = 0;
 
+	//Time threshold of appearance
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Epoches and time | Time")
+	int32 DestroyThreshold = 0;
+
 	//Parent time core for binding events
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Epoches and time | Core")
 	ATimeCore* ParentTimeCore = nullptr;

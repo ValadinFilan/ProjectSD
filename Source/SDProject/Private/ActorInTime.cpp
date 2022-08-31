@@ -184,19 +184,15 @@ void AActorInTime::OnUpdateEpochEvent(int32 EpochNum, int32 VisualisatingValue)
 
 void AActorInTime::OnUpdateEpoch(int32 EpochNum, int32 VisualisatingValue)
 {
-	int32 Val = VisualisatingValue;
-	if (EpochNum == TargetEpoch) {
-		while (Val > ParentTimeCore->Duration) {
-			Val -= ParentTimeCore->Duration;
-		}
-	}
 
-	if ((EpochNum == TargetEpoch && Threshold < Val || (!HideActorInTheAndOfEpoch && EpochNum > TargetEpoch)) && !Paused) {
+	int32 Val = VisualisatingValue - (TargetEpoch - 1) * ParentTimeCore->Duration;
+
+	if ((Threshold < Val || DestroyThreshold > Val - ParentTimeCore->Duration || (!HideActorInTheAndOfEpoch && EpochNum > TargetEpoch)) && !Paused) {
 		Up = true;
 		Visualise();
 	}
 
-	if(EpochNum > TargetEpoch && !Paused && HideActorInTheAndOfEpoch) {
+	if(EpochNum > TargetEpoch && !Paused && HideActorInTheAndOfEpoch && DestroyThreshold < Val - ParentTimeCore->Duration) {
 		Up = false;
 		Hide();
 	}

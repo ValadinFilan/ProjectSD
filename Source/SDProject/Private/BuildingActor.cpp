@@ -48,7 +48,7 @@ void ABuildingActor::OnUpdateEpoch(int32 EpochNum, int32 VisualisatingValue)
 	if (Val < Threshold) {
 		VisibleLevels = -1;
 	}
-	else if(EpochNum == TargetEpoch){
+	else if(EpochNum == TargetEpoch || DestroyThreshold > Val - ParentTimeCore->Duration){
 		VisibleLevels = (Val - Threshold) / (360 / (AnimationSpeed));
 		VisibleAngle = (Val - Threshold) % (360 / (AnimationSpeed));
 	}

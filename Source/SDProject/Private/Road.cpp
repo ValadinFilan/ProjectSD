@@ -267,9 +267,9 @@ void ARoad::Build()
 
 void ARoad::Erase()
 {
-	if (Built) {
-		TArray<AActor*> ActorArray;
-		GetAttachedActors(ActorArray);
+	TArray<AActor*> ActorArray;
+	GetAttachedActors(ActorArray);
+	if (ActorArray.Num() > 0) {
 		while (ActorArray.Num() > 0) {
 			AActor* Actor = ActorArray[0];
 			if (Actor) {
