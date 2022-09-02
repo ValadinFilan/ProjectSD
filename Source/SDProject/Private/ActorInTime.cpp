@@ -85,7 +85,6 @@ void AActorInTime::AddToHideList(AActor* Actor)
 void AActorInTime::RemoveFromAnimList(AActor* Actor)
 {
 	if (AnimList.Contains(Actor)) {
-		//Actor->SetActorLocation(*AnimList.Find(Actor) + GetActorLocation());
 		Actor->SetActorRelativeLocation(*AnimList.Find(Actor));
 		AnimList.Remove(Actor);
 	}

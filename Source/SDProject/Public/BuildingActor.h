@@ -16,7 +16,7 @@ class SDPROJECT_API ABuildingActor : public AActorInTime
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building animation")
-	int32 VisibleLevels = 1;
+	int32 VisibleLevels = -1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Building animation")
 	int32 MaxLevel = 2;

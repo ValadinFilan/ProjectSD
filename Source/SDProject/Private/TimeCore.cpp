@@ -59,13 +59,9 @@ void ATimeCore::SetupTimeValue(int32 Value)
 {
 	TimeValue = Value;
 
-	int32 Temp = Duration;
-	CurentEpoch = 1;
+	CurentEpoch = Value / Duration;
 
-	while (TimeValue > Temp) {
-		CurentEpoch++;
-		Temp += Duration;
-	}
+	if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
 	
 }
 
