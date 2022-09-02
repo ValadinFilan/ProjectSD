@@ -49,6 +49,9 @@ FVector AActorInTime::GetRelativeCoordinatesOfVector(FVector Vector)
 		FPlane(N.X, N.Y, N.Z, 0),
 		FPlane(0, 0, 0, 1));
 	Vector = P.Inverse().TransformVector(Vector);
+	Vector.X /= GetActorScale().X;
+	Vector.Y /= GetActorScale().Y;
+	Vector.Z /= GetActorScale().Z;
 
 	return Vector;
 }
@@ -82,6 +85,7 @@ void AActorInTime::AddToHideList(AActor* Actor)
 void AActorInTime::RemoveFromAnimList(AActor* Actor)
 {
 	if (AnimList.Contains(Actor)) {
+		//Actor->SetActorLocation(*AnimList.Find(Actor) + GetActorLocation());
 		Actor->SetActorRelativeLocation(*AnimList.Find(Actor));
 		AnimList.Remove(Actor);
 	}
