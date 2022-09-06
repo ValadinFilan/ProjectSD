@@ -29,10 +29,9 @@ void ATimeCore::Tick(float DeltaTime)
 		Clock += TimeSpeed;
 		if (Clock > 10) Update();
 
-		if (TimeValue > Duration) {
-			EndEpoch();
-			StartEpoch();
-		}
+		CurentEpoch = TimeValue / Duration + 1;
+
+		if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
 	}
 }
 
@@ -59,7 +58,7 @@ void ATimeCore::SetupTimeValue(int32 Value)
 {
 	TimeValue = Value;
 
-	CurentEpoch = Value / Duration;
+	CurentEpoch = Value / Duration + 1;
 
 	if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
 	
@@ -75,7 +74,6 @@ void ATimeCore::EndEpoch()
 {
 	if (CurentEpoch < LastEpoch) {
 		EndEpochEvent.Broadcast(CurentEpoch);
-		CurentEpoch += 1;
 	}
 	else {
 		Paused = true;
