@@ -29,9 +29,7 @@ void ATimeCore::Tick(float DeltaTime)
 		Clock += TimeSpeed;
 		if (Clock > 10) Update();
 
-		CurentEpoch = TimeValue / Duration + 1;
-
-		if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
+		SetupEpoch(TimeValue / Duration + 1);
 	}
 }
 
@@ -58,10 +56,17 @@ void ATimeCore::SetupTimeValue(int32 Value)
 {
 	TimeValue = Value;
 
-	CurentEpoch = Value / Duration + 1;
+	SetupEpoch(Value / Duration + 1);
+}
 
-	if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
-	
+void ATimeCore::SetupEpoch(int32 Value)
+{
+	if (Value != CurentEpoch) {
+		EndEpoch();
+		CurentEpoch = Value;
+		if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
+		StartEpoch();
+	}
 }
 
 void ATimeCore::StartEpoch()
