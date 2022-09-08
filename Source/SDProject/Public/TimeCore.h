@@ -84,4 +84,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetupTimeValue(int32 Value);
 
+	UFUNCTION(BlueprintCallable)
+	void SetupEpoch(int32 Value);
+
 };
