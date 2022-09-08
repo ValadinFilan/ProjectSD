@@ -61,10 +61,10 @@ void ATimeCore::SetupTimeValue(int32 Value)
 
 void ATimeCore::SetupEpoch(int32 Value)
 {
+	if (Value > LastEpoch) Value = LastEpoch;
 	if (Value != CurentEpoch) {
 		EndEpoch();
 		CurentEpoch = Value;
-		if (CurentEpoch > LastEpoch) CurentEpoch = LastEpoch;
 		StartEpoch();
 	}
 }
