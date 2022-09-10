@@ -21,23 +21,18 @@ public:
 	ATimeCore();
 
 	//Broadcast at epoch tick
-	UPROPERTY(BlueprintAssignable, Category = "Time")
 	FUpdateEpoch UpdateEpochEvent;
 
 	//Broadcast at start of new epoch
-	UPROPERTY(BlueprintAssignable, Category = "Time")
 	FStartEpoch StartEpochEvent;
 
 	//Broadcast at end of current epoch
-	UPROPERTY(BlueprintAssignable, Category = "Time")
 	FEndEpoch EndEpochEvent;
 
 	//Broadcast at pause of current epoch
-	UPROPERTY(BlueprintAssignable, Category = "Time")
 	FStopEpoch StopEpochEvent;
 
 	//Broadcast at resume of current epoch
-	UPROPERTY(BlueprintReadOnly, Category = "Time")
 	FStopEpoch ResumeEpochEvent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Time")
